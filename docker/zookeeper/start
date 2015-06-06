@@ -1,0 +1,20 @@
+#!/bin/bash
+
+# generate myid
+Nz = $((1 + $(hostname --short | awk -F\- '{print $NF}')))
+echo $Nz > /data/myid
+
+# generate zoo.conf: server data
+for i in $(echo $ZOOKEEPER_IDS | sed 's/\./ /g'); do
+    echo "server.$i:zookeeper-$i.node.consul:2888:3888" >> /opt/zookeeper/conf/zoo.cfg
+done
+
+for i in $(echo $ZOOKEEPER_IDS | sed 's/\./ /g'); do
+    ip=""
+    while [ "$ip" = "" ]; do
+        sleep 1
+        ip=$(dig +short zookeeper-$i.node.consul)
+    done
+done
+
+/opt/zookeeper/bin/zkServer.sh start-foreground

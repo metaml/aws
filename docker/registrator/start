@@ -1,0 +1,3 @@
+#!/bin/sh
+
+registrator consul://consul0:8500

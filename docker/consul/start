@@ -1,0 +1,4 @@
+#!/bin/sh
+
+/opt/consul/bin/consul -config-dir=/opt/consul/etc agent -server -bootstrap-expect=1 -data-dir=/opt/consul/data -node=$HOSTNAME -bind=$SERVER_IP -client=$CLIENT_IP -ui-dir=/opt/consul/webui -dc=$DATACENTER -log-level=info #-join=$CONSUL_IP
+
