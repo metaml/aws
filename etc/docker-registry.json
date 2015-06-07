@@ -1,0 +1,15 @@
+{
+    "DryRun": false,
+    "ImageId": "ami-5fb28b6f",
+    "SecurityGroups": ["default", "ssh"],
+    "InstanceType": "c3.large",
+    "KeyName": "us-west-2",
+    "BlockDeviceMappings": [
+        { "DeviceName": "/dev/sda1",
+          "Ebs": { "VolumeSize": 64, "DeleteOnTermination": false, "VolumeType": "standard" }
+        },
+        { "DeviceName": "/dev/xvdb", "VirtualName": "ephemeral0"},
+        { "DeviceName": "/dev/xvdc", "VirtualName": "ephemeral1"}
+    ]
+}
+

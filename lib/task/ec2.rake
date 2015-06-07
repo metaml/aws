@@ -27,4 +27,12 @@ namespace :ec2 do
       sh "aws ec2 import-key-pair --key-name #{arg.name} --public-key-material '#{pub}'"
     end
   end
+
+  task :run, [:name] do |t,arg|
+    raise "require json-file name" if arg.name.nil?
+    out = `aws ec2 run-instances --cli-input-json file:///#{json_file arg.name}`.strip
+    File.open("/var/tmp/#{arg.name}.txt", 'w'){|f| f.write(out)}
+    puts out
+    puts "output: /var/tmp/#{arg.name}.txt"
+  end
 end
