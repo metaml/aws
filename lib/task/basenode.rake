@@ -8,7 +8,7 @@ namespace :basenode do
     json = JSON.parse `aws ec2 run-instances --cli-input-json file:///#{config} --output json`.strip
     File.open("/var/tmp/#{name}.json", 'w'){|f| f.write(json)}
     id = json['Instances'].first['InstanceId']
-    puts id
+    puts "rake basenode:configure[#{id}]"
   end
 
   desc "configure an instance"
@@ -18,6 +18,8 @@ namespace :basenode do
     Dir.chdir ETC_DIR do
       sh "scp basenode.sh #{host}:"
       sh "ssh #{host} './basenode.sh'"
+      sh "scp #{ETC_DIR}/dotssh.tar.gz #{host}:"
+      sh "ssh #{host} 'tar xf dotssh.tar.gz'"
     end
   end
 
@@ -31,7 +33,7 @@ namespace :basenode do
     File.open('/var/tmp/image.json', 'w') {|f| f.write image.to_json}
     sh "aws ec2 create-image --cli-input-json file:///var/tmp/image.json"
   end
-
+  
   task :test do
     p hostname('i-a6384851')
   end
@@ -42,7 +44,7 @@ namespace :basenode do
       json = JSON.parse `aws ec2 describe-instances --instance-id #{instance_id}`.strip
       host = json['Reservations'].first['Instances'].first['PublicDnsName']
       raise "waiting for hostname" if host.nil?
-    rescue x
+    rescue
       count = count + 1
       if count < tries
         sleep 1

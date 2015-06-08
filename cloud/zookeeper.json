@@ -1,14 +1,13 @@
-
 {
-  "AWSTemplateFormatVersion" : "2015-06-06",
+  "AWSTemplateFormatVersion" : "2015-06-07",
 
-  "Description" : "launches an exhibitor-managed zookeeper cluster",
+  "Description" : "Launches an Exhibitor-managed ZooKeeper cluster",
 
   "Parameters" : {
     "InstanceType" : {
       "Description" : "EC2 instance type",
       "Type" : "String",
-      "Default" : "c3.large",
+      "Default" : "t2.micro",
       "AllowedValues" : [
         "t2.micro", "t2.small", "t2.medium",
         "m3.medium", "m3.large", "m3.xlarge", "m3.2xlarge",
@@ -21,7 +20,7 @@
       "ConstraintDescription" : "must be a valid, HVM-compatible EC2 instance type."
     },
     "KeyName" : {
-      "Description" : "existing ec2 keypair to be associated with all cluster instances for ssh access; for default amis, log in as the 'ubuntu' user",
+      "Description" : "Existing EC2 KeyPair to be associated with all cluster instances for SSH access. For default AMIs, log in as the 'ubuntu' user.",
       "Type" : "AWS::EC2::KeyPair::KeyName"
     },
     "ClusterSize" : {
@@ -30,9 +29,9 @@
       "Default": 3
     },
     "DockerImage" : {
-      "Description" : "path of the zk+exhibitor docker image (format: '[<registry>[:<port>]/]<repository>:<version>')",
-      "type" : "String",
-      "Default" : "mbabineau/zookeeper-exhibitor:3.4.6_1.5.4"
+      "Description" : "Path of the ZK+Exhibitor Docker image (format: '[<registry>[:<port>]/]<repository>:<version>')",
+      "Type" : "String",
+      "Default" : "metaml/zookeeper-exhibitor:latest"
     },
     "ExhibitorS3Bucket" : {
       "Description" : "Bucket for Exhibitor backups of ZK configs",
@@ -74,7 +73,7 @@
         "AMI" : "ami-117c9a55"
       },
       "us-west-2" : {
-        "AMI" : "ami-8d123ebd"
+        "AMI" : "ami-a1695191"
       },
       "eu-west-1" : {
         "AMI" : "ami-8be47afc"
