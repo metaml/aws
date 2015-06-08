@@ -76,6 +76,14 @@ namespace :docker do
   end
   task :images => :dirs
 
+  desc "tag an image"
+  task :push, [:image, :userid] do |t,arg|
+    raise "requires image arg" if arg.image.nil?
+    arg.with_defaults(userid: 'metaml')
+    sh "docker tag -f #{arg.image} #{arg.userid}/#{arg.image}"
+    sh "docker push #{arg.userid}/#{arg.image}"
+  end
+  
   desc 'info'
   task :info do
     v = `docker --version`.strip

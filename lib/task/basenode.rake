@@ -26,7 +26,7 @@ namespace :basenode do
   desc 'create an image'
   task :image, [:instance_id, :name] do |t,arg|
     raise 'instance ID is required' if arg.instance_id.nil?
-    arg.with_defaults(name: 'baseimage-0')
+    arg.with_defaults(name: 'basenode-0')
     image = YAML.load_file "#{PROJ_DIR}/etc/baseimage.json"
     image['InstanceId'] = arg.instance_id
     image['Name'] = arg.name
